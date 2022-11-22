@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+
+  rider Rider?
+  driver Driver?
+}
+
+model Rider {
+  id     Int  @id @default(autoincrement())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  paymentMethods PaymentMethod[]
+  ride Ride?
+}
+
+model Driver {
+  id     Int  @id @default(autoincrement())
+
+  nowLatitude Float
+  nowLongitude Float
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique 
+
+  ride Ride?
+}
+
+model PaymentMethod {
+  id     Int  @id @default(autoincrement())
+
+  paymentSourceId Int @unique
+  paymentMethodStatus PaymentMethodStatus @default(AVAILABLE)
+
+  rider   Rider @relation(fields: [riderId], references: [id])
+  riderId Int
+
+  payment Payment[]
+}
+
+model Payment {
+  id     Int  @id @default(autoincrement())
+
+  transactionId Int @unique
+  amount Int
+  currency String
+
+  paymentMethod PaymentMethod @relation(fields:[paymentMethodId], references: [id])
+  paymentMethodId Int @unique
+
+  ride Ride?
+}
+
+model Ride {
+  id     Int  @id @default(autoincrement())
+
+  createdAt  DateTime   @default(now())
+  finishedAt DateTime
+
+  startLatitude Float
+  startLongitude Float
+  finalLatitude Float
+  finalLongitude Float
+
+  rider   Rider @relation(fields: [riderId], references: [id])
+  riderId Int  @unique
+
+  driver   Driver @relation(fields: [driverId], references: [id])
+  driverId Int  @unique
+
+  payment Payment @relation(fields:[paymentId], references: [id])
+  paymentId Int @unique
+}
+
+enum PaymentMethodStatus {
+  AVAILABLE
+}
