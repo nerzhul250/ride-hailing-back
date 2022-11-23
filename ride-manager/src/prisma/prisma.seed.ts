@@ -8,6 +8,7 @@ async function main() {
     update: {},
     create: {
       email: 'angel123@gmail.com',
+      password: 'hellomom',
       rider: { 
         create: {
 
@@ -20,6 +21,7 @@ async function main() {
     update: {},
     create: {
       email: 'gomez123@gmail.com',
+      password: 'changeme',
       rider: { 
         create: {
 
@@ -32,6 +34,7 @@ async function main() {
     update: {},
     create: {
       email: 'jess777@gmail.com',
+      password: 'bestdog',
       driver: {
         create: {
           nowLatitude:3.469946,
@@ -45,6 +48,7 @@ async function main() {
     update: {},
     create: {
       email: 'nicolas@gmail.com',
+      password: 'stop',
       driver: {
         create: {
           nowLatitude:3.479946,
@@ -58,6 +62,7 @@ async function main() {
     update: {},
     create: {
       email: 'melanie@gmail.com',
+      password: 'gemgem',
       driver: {
         create: {
           nowLatitude:3.309946,
